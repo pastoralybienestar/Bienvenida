@@ -1,0 +1,679 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bienvenido a la Católica del Norte | Bloque Cero</title>
+    
+    <!-- Fuentes e Íconos -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* ==========================================================================
+           VARIABLES Y RESET
+           ========================================================================== */
+        :root {
+            --ucn-blue: #0033a0;
+            --ucn-blue-dark: #001f60;
+            --ucn-accent: #00b4d8;
+            --ucn-accent-light: #67e8f9;
+            
+            --slate-50: #f8fafc;
+            --slate-100: #f1f5f9;
+            --slate-300: #cbd5e1;
+            --slate-500: #64748b;
+            --slate-600: #475569;
+            --slate-700: #334155;
+            --slate-800: #1e293b;
+            --slate-900: #0f172a;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            color: var(--slate-800);
+            background-color: var(--slate-50);
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a {
+            text-decoration: none;
+        }
+
+        /* ==========================================================================
+           BARRA DE SCROLL CREATIVA
+           ========================================================================== */
+        ::-webkit-scrollbar {
+            width: 14px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--slate-900); /* Fondo oscuro elegante */
+            border-radius: 0;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: linear-gradient(180deg, var(--ucn-accent), var(--ucn-blue));
+            border-radius: 10px;
+            border: 3px solid var(--slate-900); /* Efecto de separación */
+            box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: linear-gradient(180deg, #00d9ff, #0044d6);
+            cursor: pointer;
+        }
+
+        /* ==========================================================================
+           SISTEMA DE DISEÑO (LAYOUT & UTILIDADES)
+           ========================================================================== */
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        .text-center { text-align: center; }
+        .relative { position: relative; }
+        .absolute { position: absolute; }
+        .z-10 { z-index: 10; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-10 { margin-bottom: 2.5rem; }
+        
+        /* Animaciones Globales */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-25%); }
+        }
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .animate-float { animation: float 6s ease-in-out infinite; }
+        .animate-float-delayed { animation: float 6s ease-in-out 3s infinite; }
+        
+        /* Efecto 3D para Emojis */
+        .emoji-3d {
+            display: inline-block;
+            filter: drop-shadow(2px 4px 6px rgba(0,0,0,0.3)) drop-shadow(0px 10px 15px rgba(0,51,160,0.2));
+            transition: transform 0.3s ease;
+        }
+        .emoji-3d:hover {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        /* ==========================================================================
+           HERO SECTION
+           ========================================================================== */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, var(--slate-900), var(--ucn-blue), var(--ucn-blue-dark));
+            color: white;
+            overflow: hidden;
+            position: relative;
+        }
+
+        #network-canvas {
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: 0; opacity: 0.4; pointer-events: none;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            border-radius: 999px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-title {
+            font-size: 3rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 1.5rem;
+        }
+        @media (min-width: 768px) { .hero-title { font-size: 4.5rem; } }
+
+        .text-gradient {
+            background: linear-gradient(to right, #67e8f9, #bfdbfe);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .hero-subtitle {
+            font-size: 1.25rem;
+            font-weight: 300;
+            margin-bottom: 2rem;
+            max-width: 800px;
+            margin-inline: auto;
+        }
+        @media (min-width: 768px) { .hero-subtitle { font-size: 1.5rem; } }
+
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            font-size: 1.125rem;
+            font-weight: 700;
+            color: var(--ucn-blue);
+            background: white;
+            border-radius: 999px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1);
+        }
+        .btn-primary:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 0 30px rgba(255,255,255,0.5);
+            background-color: var(--slate-50);
+        }
+        .btn-primary i {
+            margin-left: 0.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        .floating-el { position: absolute; opacity: 0.8; }
+        .el-1 { top: 5rem; left: 2.5rem; font-size: 3.75rem; }
+        .el-2 { bottom: 8rem; left: 5rem; font-size: 3.75rem; }
+        .el-3 { top: 10rem; right: 5rem; font-size: 4.5rem; }
+        .el-4 { bottom: 5rem; right: 8rem; font-size: 3.75rem; }
+
+        .wave-container {
+            position: absolute; bottom: -1px; width: 100%; overflow: hidden; line-height: 0;
+        }
+        .wave-container svg {
+            position: relative; display: block; width: 100%; height: 50px;
+        }
+        @media (min-width: 768px) { .wave-container svg { height: 100px; } }
+        .wave-container path { fill: var(--slate-50); }
+
+        /* ==========================================================================
+           SECCIÓN INSTITUCIONAL
+           ========================================================================== */
+        .section-history { padding: 5rem 0; background-color: var(--slate-50); }
+        .history-content { max-width: 900px; margin: 0 auto; display: flex; flex-direction: column; align-items: center; text-align: center; gap: 2rem; }
+        
+        .history-badge {
+            display: flex; align-items: center; gap: 0.5rem; color: var(--ucn-accent);
+            font-weight: 700; font-size: 1.125rem; text-transform: uppercase; letter-spacing: 2px;
+        }
+        .history-badge i { font-size: 1.5rem; }
+
+        .history-title {
+            font-size: 2.25rem; font-weight: 700; color: var(--ucn-blue); line-height: 1.2;
+        }
+        @media (min-width: 768px) { .history-title { font-size: 3rem; } }
+
+        .history-text {
+            font-size: 1.125rem; color: var(--slate-600); line-height: 1.8;
+        }
+
+        .quote-box {
+            background: white; padding: 2rem; border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+            border-bottom: 4px solid var(--ucn-accent); width: 100%;
+        }
+        .quote-box p { font-size: 1.25rem; font-style: italic; color: var(--slate-700); }
+
+        /* ==========================================================================
+           SECCIÓN CANVAS & TARJETAS (FLIP CARDS)
+           ========================================================================== */
+        .section-canvas { padding: 6rem 0; background: white; position: relative; overflow: hidden; }
+        
+        .bg-bubble-1 {
+            position: absolute; top: 0; right: 0; transform: translate(5rem, -5rem);
+            width: 24rem; height: 24rem; border-radius: 50%; background: #eff6ff;
+            filter: blur(60px); opacity: 0.8; pointer-events: none;
+        }
+        .bg-bubble-2 {
+            position: absolute; bottom: 0; left: 0; transform: translate(-5rem, -5rem);
+            width: 18rem; height: 18rem; border-radius: 50%; background: #ecfeff;
+            filter: blur(60px); opacity: 0.8; pointer-events: none;
+        }
+
+        .canvas-header { max-width: 800px; margin: 0 auto 3rem; text-align: center; position: relative; z-index: 10; }
+        .canvas-title { font-size: 2.25rem; font-weight: 700; color: var(--slate-800); margin-bottom: 1.5rem; }
+        .canvas-title .c-blue { color: var(--ucn-blue); }
+        .canvas-title .c-accent { color: var(--ucn-accent); }
+        .canvas-desc { font-size: 1.125rem; color: var(--slate-600); line-height: 1.7; }
+
+        .cards-grid {
+            display: grid; grid-template-columns: 1fr; gap: 1.5rem; margin-top: 3rem; position: relative; z-index: 10;
+        }
+        @media (min-width: 768px) { .cards-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (min-width: 1024px) { .cards-grid { grid-template-columns: repeat(4, 1fr); } }
+        
+        @media (min-width: 1024px) { .lg-col-start-2 { grid-column-start: 2; } }
+
+        .flip-card {
+            background-color: transparent; width: 100%; height: 250px; perspective: 1000px;
+        }
+        .flip-card-inner {
+            position: relative; width: 100%; height: 100%; text-align: center;
+            transition: transform 0.8s cubic-bezier(0.4, 0.2, 0.2, 1); transform-style: preserve-3d;
+        }
+        .flip-card:hover .flip-card-inner { transform: rotateY(180deg); }
+        
+        .flip-card-front, .flip-card-back {
+            position: absolute; width: 100%; height: 100%;
+            -webkit-backface-visibility: hidden; backface-visibility: hidden;
+            border-radius: 1.5rem; box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1);
+            display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 1.5rem;
+        }
+        
+        .flip-card-front {
+            background: white; color: var(--slate-800); border: 2px solid var(--slate-100);
+        }
+        .flip-card-front i { font-size: 3rem; margin-bottom: 1rem; }
+        .flip-card-front i.i-blue { color: var(--ucn-blue); }
+        .flip-card-front i.i-accent { color: var(--ucn-accent); }
+        .flip-card-front h4 { font-size: 1.25rem; font-weight: 700; }
+        
+        .flip-card-back {
+            background: linear-gradient(135deg, var(--ucn-blue), var(--ucn-accent)); color: white; transform: rotateY(180deg);
+        }
+        .flip-card-back i { font-size: 2rem; margin-bottom: 0.75rem; color: #a5f3fc; }
+        .flip-card-back p { font-size: 0.9rem; font-weight: 500; line-height: 1.5; padding: 0 0.5rem; }
+
+        /* ==========================================================================
+           CALL TO ACTION (CTA)
+           ========================================================================== */
+        .section-cta {
+            padding: 6rem 0;
+            background: linear-gradient(to top right, var(--slate-900), var(--ucn-blue), #2563eb);
+            color: white; position: relative; overflow: hidden;
+        }
+
+        .cta-glass-box {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 2.5rem;
+            border-radius: 1.5rem;
+            max-width: 700px;
+            margin: 0 auto;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .cta-glass-box p.intro { font-size: 1.125rem; margin-bottom: 2rem; font-weight: 500; }
+        .cta-glass-box p.note { font-size: 0.875rem; color: #bfdbfe; margin-top: 1rem; }
+
+        .btn-cta {
+            display: inline-flex; position: relative; padding: 1.25rem 2.5rem; font-size: 1.25rem;
+            font-weight: 700; color: white; background: linear-gradient(to right, var(--ucn-accent), #3b82f6);
+            border-radius: 999px; transition: transform 0.3s, box-shadow 0.3s; overflow: hidden;
+        }
+        .btn-cta:hover {
+            transform: scale(1.05); box-shadow: 0 0 40px rgba(0,180,216,0.6); color: white;
+        }
+        .btn-cta::before {
+            content: ''; position: absolute; inset: 0; background: rgba(255,255,255,0.2);
+            transform: scale(0); border-radius: 999px; transition: transform 0.3s;
+        }
+        .btn-cta:hover::before { transform: scale(1); }
+        .btn-cta span { position: relative; z-index: 10; display: flex; align-items: center; }
+
+        /* ==========================================================================
+           FOOTER
+           ========================================================================== */
+        .footer {
+            background: var(--slate-900); padding: 3rem 0; text-align: center; border-top: 1px solid var(--slate-800);
+        }
+        .footer-text { font-size: 1.25rem; color: var(--slate-300); font-weight: 300; margin-bottom: 1rem; }
+        .footer-text strong { font-weight: 700; color: white; }
+        .footer-slogan {
+            font-size: 1.25rem; font-weight: 700; color: var(--ucn-accent);
+            text-transform: uppercase; letter-spacing: 1px; margin-top: 1.5rem;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <canvas id="network-canvas"></canvas>
+        
+        <!-- Elementos flotantes decorativos -->
+        <div class="floating-el el-1 emoji-3d animate-float">🎓</div>
+        <div class="floating-el el-2 emoji-3d animate-float-delayed">💻</div>
+        <div class="floating-el el-3 emoji-3d animate-float">🌍</div>
+        <div class="floating-el el-4 emoji-3d animate-float-delayed">🚀</div>
+
+        <div class="container relative z-10 text-center">
+            <div class="hero-badge reveal">Tu experiencia con la UCN comienza aquí:</div>
+            
+            <h1 class="hero-title reveal" style="transition-delay: 100ms;">
+                Bienvenido(a) a la <br>
+                <span class="text-gradient">Católica del Norte</span>
+            </h1>
+            
+            <p class="hero-subtitle reveal" style="transition-delay: 200ms;">
+                Donde tus sueños no tienen fronteras <span class="emoji-3d" style="font-size: 1.5rem;">💙🤍</span>
+            </p>
+            
+            <div class="reveal" style="transition-delay: 300ms;">
+                <a href="#historia" class="btn-primary">
+                    Comenzar el viaje <i class="fas fa-arrow-down"></i>
+                </a>
+            </div>
+        </div>
+        
+        <!-- Wave shape divider -->
+        <div class="wave-container">
+            <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+                <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V120H0V95.8C59.71,118,130.98,131.7,201,120.4,242.45,113.67,282.4,94,321.39,56.44Z"></path>
+            </svg>
+        </div>
+    </header>
+
+    <!-- Sección Institucional -->
+    <section id="historia" class="section-history">
+        <div class="container">
+            <div class="history-content reveal">
+                <div class="history-badge">
+                    <i class="fas fa-award"></i> Trayectoria e Innovación
+                </div>
+                
+                <h2 class="history-title">
+                    Transformando vidas a través de la educación
+                </h2>
+                
+                <p class="history-text">
+                    Somos una institución de educación superior 100 % virtual, pionera en Colombia, con más de 28 años de trayectoria transformando vidas a través de una educación innovadora, incluyente y con sentido humano.
+                </p>
+                
+                <div class="quote-box">
+                    <p>"Hoy comienzas a ser parte de una comunidad que aprende, se conecta y construye oportunidades desde cualquier lugar del mundo."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Sección CANVAS y Bloque Cero -->
+    <section class="section-canvas">
+        <!-- Decoración de fondo -->
+        <div class="bg-bubble-1"></div>
+        <div class="bg-bubble-2"></div>
+
+        <div class="container canvas-header reveal">
+            <h2 class="canvas-title">
+                Descubre <span class="c-blue">CANVAS</span> y tu <span class="c-accent">Bloque Cero (B0)</span>
+            </h2>
+            <p class="canvas-desc">
+                Antes de iniciar tu formación con nosotros, queremos invitarte a descubrir CANVAS, nuestro entorno virtual de aprendizaje, el espacio donde vivirás gran parte de tu experiencia académica.<br><br>
+                Por eso, hemos preparado para ti el Bloque Cero (B0), una oportunidad para explorar, interactuar y familiarizarte con las herramientas que te acompañarán durante tu formación.
+            </p>
+        </div>
+
+        <div class="container text-center reveal">
+            <h3 style="font-size: 1.75rem; font-weight: 700; color: var(--slate-700);">¿Qué podrás aprender y explorar? <span class="emoji-3d">🧐</span></h3>
+            <p style="color: var(--slate-500); margin-top: 0.5rem;">Pasa el cursor sobre las tarjetas para descubrirlo</p>
+            
+            <!-- Grid de Tarjetas Interactivas -->
+            <div class="cards-grid">
+                <!-- Tarjeta 1 -->
+                <div class="flip-card reveal" style="transition-delay: 100ms;">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-compass i-blue"></i>
+                            <h4>Navegación</h4>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fas fa-mouse-pointer"></i>
+                            <p>Navegar por CANVAS y conocer sus principales herramientas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 2 -->
+                <div class="flip-card reveal" style="transition-delay: 200ms;">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-book-open i-accent"></i>
+                            <h4>Contenidos</h4>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fas fa-file-alt"></i>
+                            <p>Consultar los contenidos y recursos de tus cursos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 3 -->
+                <div class="flip-card reveal" style="transition-delay: 300ms;">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-cloud-upload-alt i-blue"></i>
+                            <h4>Actividades</h4>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fas fa-tasks"></i>
+                            <p>Visualizar, descargar y cargar actividades académicas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 4 -->
+                <div class="flip-card reveal" style="transition-delay: 400ms;">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-calendar-check i-accent"></i>
+                            <h4>Calendario</h4>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fas fa-clock"></i>
+                            <p>Identificar fechas de entrega y compromisos académicos.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 5 -->
+                <div class="flip-card reveal lg-col-start-2" style="transition-delay: 100ms;">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-comments i-blue"></i>
+                            <h4>Interacción</h4>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fas fa-users"></i>
+                            <p>Participar en foros e interactuar con docentes y compañeros.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 6 -->
+                <div class="flip-card reveal" style="transition-delay: 200ms;">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-user-friends i-accent"></i>
+                            <h4>Grupos</h4>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fas fa-network-wired"></i>
+                            <p>Conformar grupos de estudio y desarrollar actividades colaborativas.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tarjeta 7 -->
+                <div class="flip-card reveal" style="transition-delay: 300ms;">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <i class="fas fa-chart-pie i-blue"></i>
+                            <h4>Calificaciones</h4>
+                        </div>
+                        <div class="flip-card-back">
+                            <i class="fas fa-graduation-cap"></i>
+                            <p>Consultar tus calificaciones y hacer seguimiento a tu progreso académico.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Call to Action Section -->
+    <section class="section-cta">
+        <!-- Floating emojis para CTA -->
+        <div class="floating-el emoji-3d animate-float" style="top: 2rem; left: 10%; font-size: 3rem; opacity: 0.5;">✨</div>
+        <div class="floating-el emoji-3d animate-float-delayed" style="bottom: 2rem; right: 10%; font-size: 3rem; opacity: 0.5;">🎯</div>
+
+        <div class="container text-center relative z-10">
+            <h2 class="hero-title reveal" style="font-size: 2.5rem; margin-bottom: 1rem;">
+                ¡Explora, practica y aprende!
+            </h2>
+            <p class="hero-subtitle reveal" style="margin-bottom: 3rem;">
+                No esperes al primer día de clases para descubrir cómo funciona tu aula virtual. Este es el momento de explorar, hacer pruebas, resolver inquietudes y ganar confianza en el manejo de las herramientas que utilizarás durante tu formación.
+            </p>
+            
+            <div class="cta-glass-box reveal">
+                <p class="intro">
+                    recorre sus contenidos y lee con atención todo lo que hemos preparado para ti.
+                </p>
+                <a href="https://view.genially.com/6924658fc4c846b634b76cc0" target="_blank" rel="noopener noreferrer" class="btn-cta">
+                    <span>
+                        Ingresa al Bloque Cero (B0) 👉
+                    </span>
+                </a>
+                <p class="note">Enlace a un sitio externo (Genially)</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">
+                Porque en la <strong>Católica del Norte</strong>, tu experiencia comienza antes de tu primera clase.
+            </p>
+            <p class="footer-slogan emoji-3d">
+                Conéctate, explora y vive la experiencia UCN 💙🤍
+            </p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+        // Animación al hacer scroll (Reveal)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 100;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Trigger inicial
+        setTimeout(reveal, 100);
+
+        // Fondo de Partículas interactivas (Network Effect)
+        const canvas = document.getElementById('network-canvas');
+        const ctx = canvas.getContext('2d');
+        
+        let width, height, particles;
+
+        function init() {
+            width = canvas.width = window.innerWidth;
+            height = canvas.height = window.innerHeight;
+            
+            particles = [];
+            const numParticles = Math.floor(width / 20); // Ajustar cantidad según ancho
+
+            for (let i = 0; i < numParticles; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.5,
+                    vy: (Math.random() - 0.5) * 0.5,
+                    radius: Math.random() * 2 + 1
+                });
+            }
+        }
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, width, height);
+            
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.5)';
+            ctx.strokeStyle = 'rgba(255, 255, 255, 0.15)';
+            
+            for (let i = 0; i < particles.length; i++) {
+                let p = particles[i];
+                p.x += p.vx;
+                p.y += p.vy;
+
+                // Rebotar en los bordes
+                if (p.x < 0 || p.x > width) p.vx *= -1;
+                if (p.y < 0 || p.y > height) p.vy *= -1;
+
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                ctx.fill();
+
+                // Conectar partículas cercanas
+                for (let j = i + 1; j < particles.length; j++) {
+                    let p2 = particles[j];
+                    let dist = Math.hypot(p.x - p2.x, p.y - p2.y);
+                    if (dist < 120) {
+                        ctx.beginPath();
+                        ctx.moveTo(p.x, p.y);
+                        ctx.lineTo(p2.x, p2.y);
+                        // Opacidad basada en la distancia
+                        ctx.strokeStyle = `rgba(255, 255, 255, ${0.2 - dist/600})`;
+                        ctx.stroke();
+                    }
+                }
+            }
+            requestAnimationFrame(animateParticles);
+        }
+
+        window.addEventListener('resize', init);
+        
+        // Iniciar en la carga de la ventana
+        window.onload = function() {
+            init();
+            animateParticles();
+        };
+    </script>
+</body>
+</html>
